@@ -1,6 +1,6 @@
 {
  "Resources": {
-  "EKSVpcBAB3E5CC": {
+  "myVPC01512990": {
    "Type": "AWS::EC2::VPC",
    "Properties": {
     "CidrBlock": "10.0.0.0/16",
@@ -10,19 +10,19 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc"
+      "Value": "MyEKSCluster/myVPC"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/Resource"
+    "aws:cdk:path": "MyEKSCluster/myVPC/Resource"
    }
   },
-  "EKSVpcPublicSubnet1Subnet6F739FCA": {
+  "myVPCmyPrivateSubnet1SubnetBA09F77C": {
    "Type": "AWS::EC2::Subnet",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "AvailabilityZone": {
      "Fn::Select": [
@@ -32,12 +32,190 @@
       }
      ]
     },
-    "CidrBlock": "10.0.0.0/18",
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "myPrivate"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "kubernetes.io/role/internal-elb",
+      "Value": "1"
+     },
+     {
+      "Key": "Name",
+      "Value": "MyEKSCluster/myVPC/myPrivateSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPrivateSubnet1/Subnet"
+   }
+  },
+  "myVPCmyPrivateSubnet1RouteTable3996E430": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": {
+     "Ref": "myVPC01512990"
+    },
+    "Tags": [
+     {
+      "Key": "kubernetes.io/role/internal-elb",
+      "Value": "1"
+     },
+     {
+      "Key": "Name",
+      "Value": "MyEKSCluster/myVPC/myPrivateSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPrivateSubnet1/RouteTable"
+   }
+  },
+  "myVPCmyPrivateSubnet1RouteTableAssociation9446C6EC": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "myVPCmyPrivateSubnet1RouteTable3996E430"
+    },
+    "SubnetId": {
+     "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "myVPCmyPrivateSubnet1DefaultRouteE98FDE44": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "myVPCmyPrivateSubnet1RouteTable3996E430"
+    },
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "myVPCmyPublicSubnet1NATGatewayB5F55978"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPrivateSubnet1/DefaultRoute"
+   }
+  },
+  "myVPCmyPrivateSubnet2SubnetF025AC1A": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "VpcId": {
+     "Ref": "myVPC01512990"
+    },
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "myPrivate"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "kubernetes.io/role/internal-elb",
+      "Value": "1"
+     },
+     {
+      "Key": "Name",
+      "Value": "MyEKSCluster/myVPC/myPrivateSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPrivateSubnet2/Subnet"
+   }
+  },
+  "myVPCmyPrivateSubnet2RouteTableCA1D81F7": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "VpcId": {
+     "Ref": "myVPC01512990"
+    },
+    "Tags": [
+     {
+      "Key": "kubernetes.io/role/internal-elb",
+      "Value": "1"
+     },
+     {
+      "Key": "Name",
+      "Value": "MyEKSCluster/myVPC/myPrivateSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPrivateSubnet2/RouteTable"
+   }
+  },
+  "myVPCmyPrivateSubnet2RouteTableAssociationEC32E868": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "myVPCmyPrivateSubnet2RouteTableCA1D81F7"
+    },
+    "SubnetId": {
+     "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "myVPCmyPrivateSubnet2DefaultRoute1990988B": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "myVPCmyPrivateSubnet2RouteTableCA1D81F7"
+    },
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "myVPCmyPublicSubnet1NATGatewayB5F55978"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPrivateSubnet2/DefaultRoute"
+   }
+  },
+  "myVPCmyPublicSubnet1Subnet5E1BBFE5": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "VpcId": {
+     "Ref": "myVPC01512990"
+    },
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.2.0/24",
     "MapPublicIpOnLaunch": true,
     "Tags": [
      {
       "Key": "aws-cdk:subnet-name",
-      "Value": "Public"
+      "Value": "myPublic"
      },
      {
       "Key": "aws-cdk:subnet-type",
@@ -49,19 +227,19 @@
      },
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PublicSubnet1"
+      "Value": "MyEKSCluster/myVPC/myPublicSubnet1"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet1/Subnet"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet1/Subnet"
    }
   },
-  "EKSVpcPublicSubnet1RouteTable258B7E17": {
+  "myVPCmyPublicSubnet1RouteTable6643375F": {
    "Type": "AWS::EC2::RouteTable",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "Tags": [
      {
@@ -70,47 +248,47 @@
      },
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PublicSubnet1"
+      "Value": "MyEKSCluster/myVPC/myPublicSubnet1"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet1/RouteTable"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet1/RouteTable"
    }
   },
-  "EKSVpcPublicSubnet1RouteTableAssociationC3AB9ADD": {
+  "myVPCmyPublicSubnet1RouteTableAssociationC41FA5C8": {
    "Type": "AWS::EC2::SubnetRouteTableAssociation",
    "Properties": {
     "RouteTableId": {
-     "Ref": "EKSVpcPublicSubnet1RouteTable258B7E17"
+     "Ref": "myVPCmyPublicSubnet1RouteTable6643375F"
     },
     "SubnetId": {
-     "Ref": "EKSVpcPublicSubnet1Subnet6F739FCA"
+     "Ref": "myVPCmyPublicSubnet1Subnet5E1BBFE5"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet1/RouteTableAssociation"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet1/RouteTableAssociation"
    }
   },
-  "EKSVpcPublicSubnet1DefaultRouteF13B673C": {
+  "myVPCmyPublicSubnet1DefaultRoute1C400848": {
    "Type": "AWS::EC2::Route",
    "Properties": {
     "RouteTableId": {
-     "Ref": "EKSVpcPublicSubnet1RouteTable258B7E17"
+     "Ref": "myVPCmyPublicSubnet1RouteTable6643375F"
     },
     "DestinationCidrBlock": "0.0.0.0/0",
     "GatewayId": {
-     "Ref": "EKSVpcIGW6C6D33F8"
+     "Ref": "myVPCIGW5063090B"
     }
    },
    "DependsOn": [
-    "EKSVpcVPCGW60CB8A7B"
+    "myVPCVPCGW2EC4F0BF"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet1/DefaultRoute"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet1/DefaultRoute"
    }
   },
-  "EKSVpcPublicSubnet1EIPA7436DE4": {
+  "myVPCmyPublicSubnet1EIP841D2363": {
    "Type": "AWS::EC2::EIP",
    "Properties": {
     "Domain": "vpc",
@@ -121,23 +299,23 @@
      },
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PublicSubnet1"
+      "Value": "MyEKSCluster/myVPC/myPublicSubnet1"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet1/EIP"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet1/EIP"
    }
   },
-  "EKSVpcPublicSubnet1NATGatewayE8A16310": {
+  "myVPCmyPublicSubnet1NATGatewayB5F55978": {
    "Type": "AWS::EC2::NatGateway",
    "Properties": {
     "SubnetId": {
-     "Ref": "EKSVpcPublicSubnet1Subnet6F739FCA"
+     "Ref": "myVPCmyPublicSubnet1Subnet5E1BBFE5"
     },
     "AllocationId": {
      "Fn::GetAtt": [
-      "EKSVpcPublicSubnet1EIPA7436DE4",
+      "myVPCmyPublicSubnet1EIP841D2363",
       "AllocationId"
      ]
     },
@@ -148,23 +326,23 @@
      },
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PublicSubnet1"
+      "Value": "MyEKSCluster/myVPC/myPublicSubnet1"
      }
     ]
    },
    "DependsOn": [
-    "EKSVpcPublicSubnet1DefaultRouteF13B673C",
-    "EKSVpcPublicSubnet1RouteTableAssociationC3AB9ADD"
+    "myVPCmyPublicSubnet1DefaultRoute1C400848",
+    "myVPCmyPublicSubnet1RouteTableAssociationC41FA5C8"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet1/NATGateway"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet1/NATGateway"
    }
   },
-  "EKSVpcPublicSubnet2Subnet22F974C4": {
+  "myVPCmyPublicSubnet2Subnet434906DF": {
    "Type": "AWS::EC2::Subnet",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "AvailabilityZone": {
      "Fn::Select": [
@@ -174,12 +352,12 @@
       }
      ]
     },
-    "CidrBlock": "10.0.64.0/18",
+    "CidrBlock": "10.0.3.0/24",
     "MapPublicIpOnLaunch": true,
     "Tags": [
      {
       "Key": "aws-cdk:subnet-name",
-      "Value": "Public"
+      "Value": "myPublic"
      },
      {
       "Key": "aws-cdk:subnet-type",
@@ -191,19 +369,19 @@
      },
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PublicSubnet2"
+      "Value": "MyEKSCluster/myVPC/myPublicSubnet2"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet2/Subnet"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet2/Subnet"
    }
   },
-  "EKSVpcPublicSubnet2RouteTable0AB21A14": {
+  "myVPCmyPublicSubnet2RouteTable7D44E561": {
    "Type": "AWS::EC2::RouteTable",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "Tags": [
      {
@@ -212,101 +390,51 @@
      },
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PublicSubnet2"
+      "Value": "MyEKSCluster/myVPC/myPublicSubnet2"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet2/RouteTable"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet2/RouteTable"
    }
   },
-  "EKSVpcPublicSubnet2RouteTableAssociation56EB44CD": {
+  "myVPCmyPublicSubnet2RouteTableAssociation81787CFD": {
    "Type": "AWS::EC2::SubnetRouteTableAssociation",
    "Properties": {
     "RouteTableId": {
-     "Ref": "EKSVpcPublicSubnet2RouteTable0AB21A14"
+     "Ref": "myVPCmyPublicSubnet2RouteTable7D44E561"
     },
     "SubnetId": {
-     "Ref": "EKSVpcPublicSubnet2Subnet22F974C4"
+     "Ref": "myVPCmyPublicSubnet2Subnet434906DF"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet2/RouteTableAssociation"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet2/RouteTableAssociation"
    }
   },
-  "EKSVpcPublicSubnet2DefaultRoute6E6CA646": {
+  "myVPCmyPublicSubnet2DefaultRouteA2B670A5": {
    "Type": "AWS::EC2::Route",
    "Properties": {
     "RouteTableId": {
-     "Ref": "EKSVpcPublicSubnet2RouteTable0AB21A14"
+     "Ref": "myVPCmyPublicSubnet2RouteTable7D44E561"
     },
     "DestinationCidrBlock": "0.0.0.0/0",
     "GatewayId": {
-     "Ref": "EKSVpcIGW6C6D33F8"
+     "Ref": "myVPCIGW5063090B"
     }
    },
    "DependsOn": [
-    "EKSVpcVPCGW60CB8A7B"
+    "myVPCVPCGW2EC4F0BF"
    ],
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet2/DefaultRoute"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myPublicSubnet2/DefaultRoute"
    }
   },
-  "EKSVpcPublicSubnet2EIPBD601F30": {
-   "Type": "AWS::EC2::EIP",
-   "Properties": {
-    "Domain": "vpc",
-    "Tags": [
-     {
-      "Key": "kubernetes.io/role/elb",
-      "Value": "1"
-     },
-     {
-      "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PublicSubnet2"
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet2/EIP"
-   }
-  },
-  "EKSVpcPublicSubnet2NATGateway06A389FD": {
-   "Type": "AWS::EC2::NatGateway",
-   "Properties": {
-    "SubnetId": {
-     "Ref": "EKSVpcPublicSubnet2Subnet22F974C4"
-    },
-    "AllocationId": {
-     "Fn::GetAtt": [
-      "EKSVpcPublicSubnet2EIPBD601F30",
-      "AllocationId"
-     ]
-    },
-    "Tags": [
-     {
-      "Key": "kubernetes.io/role/elb",
-      "Value": "1"
-     },
-     {
-      "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PublicSubnet2"
-     }
-    ]
-   },
-   "DependsOn": [
-    "EKSVpcPublicSubnet2DefaultRoute6E6CA646",
-    "EKSVpcPublicSubnet2RouteTableAssociation56EB44CD"
-   ],
-   "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PublicSubnet2/NATGateway"
-   }
-  },
-  "EKSVpcPrivateSubnet1SubnetD09A7726": {
+  "myVPCmyIsolatedSubnet1Subnet8C0D6A8F": {
    "Type": "AWS::EC2::Subnet",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "AvailabilityZone": {
      "Fn::Select": [
@@ -316,86 +444,63 @@
       }
      ]
     },
-    "CidrBlock": "10.0.128.0/18",
+    "CidrBlock": "10.0.4.0/28",
     "MapPublicIpOnLaunch": false,
     "Tags": [
      {
       "Key": "aws-cdk:subnet-name",
-      "Value": "Private"
+      "Value": "myIsolated"
      },
      {
       "Key": "aws-cdk:subnet-type",
-      "Value": "Private"
-     },
-     {
-      "Key": "kubernetes.io/role/internal-elb",
-      "Value": "1"
+      "Value": "Isolated"
      },
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PrivateSubnet1"
+      "Value": "MyEKSCluster/myVPC/myIsolatedSubnet1"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PrivateSubnet1/Subnet"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myIsolatedSubnet1/Subnet"
    }
   },
-  "EKSVpcPrivateSubnet1RouteTable158AD21B": {
+  "myVPCmyIsolatedSubnet1RouteTable84164108": {
    "Type": "AWS::EC2::RouteTable",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "Tags": [
      {
-      "Key": "kubernetes.io/role/internal-elb",
-      "Value": "1"
-     },
-     {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PrivateSubnet1"
+      "Value": "MyEKSCluster/myVPC/myIsolatedSubnet1"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PrivateSubnet1/RouteTable"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myIsolatedSubnet1/RouteTable"
    }
   },
-  "EKSVpcPrivateSubnet1RouteTableAssociation05ED387B": {
+  "myVPCmyIsolatedSubnet1RouteTableAssociation998F4116": {
    "Type": "AWS::EC2::SubnetRouteTableAssociation",
    "Properties": {
     "RouteTableId": {
-     "Ref": "EKSVpcPrivateSubnet1RouteTable158AD21B"
+     "Ref": "myVPCmyIsolatedSubnet1RouteTable84164108"
     },
     "SubnetId": {
-     "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+     "Ref": "myVPCmyIsolatedSubnet1Subnet8C0D6A8F"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PrivateSubnet1/RouteTableAssociation"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myIsolatedSubnet1/RouteTableAssociation"
    }
   },
-  "EKSVpcPrivateSubnet1DefaultRoute3FD0ADF2": {
-   "Type": "AWS::EC2::Route",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "EKSVpcPrivateSubnet1RouteTable158AD21B"
-    },
-    "DestinationCidrBlock": "0.0.0.0/0",
-    "NatGatewayId": {
-     "Ref": "EKSVpcPublicSubnet1NATGatewayE8A16310"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PrivateSubnet1/DefaultRoute"
-   }
-  },
-  "EKSVpcPrivateSubnet2Subnet75FE259E": {
+  "myVPCmyIsolatedSubnet2SubnetC4190CE4": {
    "Type": "AWS::EC2::Subnet",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "AvailabilityZone": {
      "Fn::Select": [
@@ -405,107 +510,84 @@
       }
      ]
     },
-    "CidrBlock": "10.0.192.0/18",
+    "CidrBlock": "10.0.4.16/28",
     "MapPublicIpOnLaunch": false,
     "Tags": [
      {
       "Key": "aws-cdk:subnet-name",
-      "Value": "Private"
+      "Value": "myIsolated"
      },
      {
       "Key": "aws-cdk:subnet-type",
-      "Value": "Private"
-     },
-     {
-      "Key": "kubernetes.io/role/internal-elb",
-      "Value": "1"
+      "Value": "Isolated"
      },
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PrivateSubnet2"
+      "Value": "MyEKSCluster/myVPC/myIsolatedSubnet2"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PrivateSubnet2/Subnet"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myIsolatedSubnet2/Subnet"
    }
   },
-  "EKSVpcPrivateSubnet2RouteTable584CB1D6": {
+  "myVPCmyIsolatedSubnet2RouteTableE37C1CA2": {
    "Type": "AWS::EC2::RouteTable",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "Tags": [
      {
-      "Key": "kubernetes.io/role/internal-elb",
-      "Value": "1"
-     },
-     {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc/PrivateSubnet2"
+      "Value": "MyEKSCluster/myVPC/myIsolatedSubnet2"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PrivateSubnet2/RouteTable"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myIsolatedSubnet2/RouteTable"
    }
   },
-  "EKSVpcPrivateSubnet2RouteTableAssociation56D711FD": {
+  "myVPCmyIsolatedSubnet2RouteTableAssociation0E1E9C49": {
    "Type": "AWS::EC2::SubnetRouteTableAssociation",
    "Properties": {
     "RouteTableId": {
-     "Ref": "EKSVpcPrivateSubnet2RouteTable584CB1D6"
+     "Ref": "myVPCmyIsolatedSubnet2RouteTableE37C1CA2"
     },
     "SubnetId": {
-     "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+     "Ref": "myVPCmyIsolatedSubnet2SubnetC4190CE4"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PrivateSubnet2/RouteTableAssociation"
+    "aws:cdk:path": "MyEKSCluster/myVPC/myIsolatedSubnet2/RouteTableAssociation"
    }
   },
-  "EKSVpcPrivateSubnet2DefaultRoute6DA3F959": {
-   "Type": "AWS::EC2::Route",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "EKSVpcPrivateSubnet2RouteTable584CB1D6"
-    },
-    "DestinationCidrBlock": "0.0.0.0/0",
-    "NatGatewayId": {
-     "Ref": "EKSVpcPublicSubnet2NATGateway06A389FD"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/PrivateSubnet2/DefaultRoute"
-   }
-  },
-  "EKSVpcIGW6C6D33F8": {
+  "myVPCIGW5063090B": {
    "Type": "AWS::EC2::InternetGateway",
    "Properties": {
     "Tags": [
      {
       "Key": "Name",
-      "Value": "MyEKSCluster/EKSVpc"
+      "Value": "MyEKSCluster/myVPC"
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/IGW"
+    "aws:cdk:path": "MyEKSCluster/myVPC/IGW"
    }
   },
-  "EKSVpcVPCGW60CB8A7B": {
+  "myVPCVPCGW2EC4F0BF": {
    "Type": "AWS::EC2::VPCGatewayAttachment",
    "Properties": {
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     },
     "InternetGatewayId": {
-     "Ref": "EKSVpcIGW6C6D33F8"
+     "Ref": "myVPCIGW5063090B"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "MyEKSCluster/EKSVpc/VPCGW"
+    "aws:cdk:path": "MyEKSCluster/myVPC/VPCGW"
    }
   },
   "AdminRole38563C57": {
@@ -657,7 +739,7 @@
      }
     ],
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     }
    },
    "Metadata": {
@@ -720,29 +802,33 @@
     }
    },
    "DependsOn": [
-    "EKSVpcIGW6C6D33F8",
-    "EKSVpcPrivateSubnet1DefaultRoute3FD0ADF2",
-    "EKSVpcPrivateSubnet1RouteTable158AD21B",
-    "EKSVpcPrivateSubnet1RouteTableAssociation05ED387B",
-    "EKSVpcPrivateSubnet1SubnetD09A7726",
-    "EKSVpcPrivateSubnet2DefaultRoute6DA3F959",
-    "EKSVpcPrivateSubnet2RouteTable584CB1D6",
-    "EKSVpcPrivateSubnet2RouteTableAssociation56D711FD",
-    "EKSVpcPrivateSubnet2Subnet75FE259E",
-    "EKSVpcPublicSubnet1DefaultRouteF13B673C",
-    "EKSVpcPublicSubnet1EIPA7436DE4",
-    "EKSVpcPublicSubnet1NATGatewayE8A16310",
-    "EKSVpcPublicSubnet1RouteTable258B7E17",
-    "EKSVpcPublicSubnet1RouteTableAssociationC3AB9ADD",
-    "EKSVpcPublicSubnet1Subnet6F739FCA",
-    "EKSVpcPublicSubnet2DefaultRoute6E6CA646",
-    "EKSVpcPublicSubnet2EIPBD601F30",
-    "EKSVpcPublicSubnet2NATGateway06A389FD",
-    "EKSVpcPublicSubnet2RouteTable0AB21A14",
-    "EKSVpcPublicSubnet2RouteTableAssociation56EB44CD",
-    "EKSVpcPublicSubnet2Subnet22F974C4",
-    "EKSVpcBAB3E5CC",
-    "EKSVpcVPCGW60CB8A7B"
+    "myVPCIGW5063090B",
+    "myVPCmyIsolatedSubnet1RouteTable84164108",
+    "myVPCmyIsolatedSubnet1RouteTableAssociation998F4116",
+    "myVPCmyIsolatedSubnet1Subnet8C0D6A8F",
+    "myVPCmyIsolatedSubnet2RouteTableE37C1CA2",
+    "myVPCmyIsolatedSubnet2RouteTableAssociation0E1E9C49",
+    "myVPCmyIsolatedSubnet2SubnetC4190CE4",
+    "myVPCmyPrivateSubnet1DefaultRouteE98FDE44",
+    "myVPCmyPrivateSubnet1RouteTable3996E430",
+    "myVPCmyPrivateSubnet1RouteTableAssociation9446C6EC",
+    "myVPCmyPrivateSubnet1SubnetBA09F77C",
+    "myVPCmyPrivateSubnet2DefaultRoute1990988B",
+    "myVPCmyPrivateSubnet2RouteTableCA1D81F7",
+    "myVPCmyPrivateSubnet2RouteTableAssociationEC32E868",
+    "myVPCmyPrivateSubnet2SubnetF025AC1A",
+    "myVPCmyPublicSubnet1DefaultRoute1C400848",
+    "myVPCmyPublicSubnet1EIP841D2363",
+    "myVPCmyPublicSubnet1NATGatewayB5F55978",
+    "myVPCmyPublicSubnet1RouteTable6643375F",
+    "myVPCmyPublicSubnet1RouteTableAssociationC41FA5C8",
+    "myVPCmyPublicSubnet1Subnet5E1BBFE5",
+    "myVPCmyPublicSubnet2DefaultRouteA2B670A5",
+    "myVPCmyPublicSubnet2RouteTable7D44E561",
+    "myVPCmyPublicSubnet2RouteTableAssociation81787CFD",
+    "myVPCmyPublicSubnet2Subnet434906DF",
+    "myVPC01512990",
+    "myVPCVPCGW2EC4F0BF"
    ],
    "Metadata": {
     "aws:cdk:path": "MyEKSCluster/Cluster/Resource/CreationRole/Resource"
@@ -883,29 +969,33 @@
     ]
    },
    "DependsOn": [
-    "EKSVpcIGW6C6D33F8",
-    "EKSVpcPrivateSubnet1DefaultRoute3FD0ADF2",
-    "EKSVpcPrivateSubnet1RouteTable158AD21B",
-    "EKSVpcPrivateSubnet1RouteTableAssociation05ED387B",
-    "EKSVpcPrivateSubnet1SubnetD09A7726",
-    "EKSVpcPrivateSubnet2DefaultRoute6DA3F959",
-    "EKSVpcPrivateSubnet2RouteTable584CB1D6",
-    "EKSVpcPrivateSubnet2RouteTableAssociation56D711FD",
-    "EKSVpcPrivateSubnet2Subnet75FE259E",
-    "EKSVpcPublicSubnet1DefaultRouteF13B673C",
-    "EKSVpcPublicSubnet1EIPA7436DE4",
-    "EKSVpcPublicSubnet1NATGatewayE8A16310",
-    "EKSVpcPublicSubnet1RouteTable258B7E17",
-    "EKSVpcPublicSubnet1RouteTableAssociationC3AB9ADD",
-    "EKSVpcPublicSubnet1Subnet6F739FCA",
-    "EKSVpcPublicSubnet2DefaultRoute6E6CA646",
-    "EKSVpcPublicSubnet2EIPBD601F30",
-    "EKSVpcPublicSubnet2NATGateway06A389FD",
-    "EKSVpcPublicSubnet2RouteTable0AB21A14",
-    "EKSVpcPublicSubnet2RouteTableAssociation56EB44CD",
-    "EKSVpcPublicSubnet2Subnet22F974C4",
-    "EKSVpcBAB3E5CC",
-    "EKSVpcVPCGW60CB8A7B"
+    "myVPCIGW5063090B",
+    "myVPCmyIsolatedSubnet1RouteTable84164108",
+    "myVPCmyIsolatedSubnet1RouteTableAssociation998F4116",
+    "myVPCmyIsolatedSubnet1Subnet8C0D6A8F",
+    "myVPCmyIsolatedSubnet2RouteTableE37C1CA2",
+    "myVPCmyIsolatedSubnet2RouteTableAssociation0E1E9C49",
+    "myVPCmyIsolatedSubnet2SubnetC4190CE4",
+    "myVPCmyPrivateSubnet1DefaultRouteE98FDE44",
+    "myVPCmyPrivateSubnet1RouteTable3996E430",
+    "myVPCmyPrivateSubnet1RouteTableAssociation9446C6EC",
+    "myVPCmyPrivateSubnet1SubnetBA09F77C",
+    "myVPCmyPrivateSubnet2DefaultRoute1990988B",
+    "myVPCmyPrivateSubnet2RouteTableCA1D81F7",
+    "myVPCmyPrivateSubnet2RouteTableAssociationEC32E868",
+    "myVPCmyPrivateSubnet2SubnetF025AC1A",
+    "myVPCmyPublicSubnet1DefaultRoute1C400848",
+    "myVPCmyPublicSubnet1EIP841D2363",
+    "myVPCmyPublicSubnet1NATGatewayB5F55978",
+    "myVPCmyPublicSubnet1RouteTable6643375F",
+    "myVPCmyPublicSubnet1RouteTableAssociationC41FA5C8",
+    "myVPCmyPublicSubnet1Subnet5E1BBFE5",
+    "myVPCmyPublicSubnet2DefaultRouteA2B670A5",
+    "myVPCmyPublicSubnet2RouteTable7D44E561",
+    "myVPCmyPublicSubnet2RouteTableAssociation81787CFD",
+    "myVPCmyPublicSubnet2Subnet434906DF",
+    "myVPC01512990",
+    "myVPCVPCGW2EC4F0BF"
    ],
    "Metadata": {
     "aws:cdk:path": "MyEKSCluster/Cluster/Resource/CreationRole/DefaultPolicy/Resource"
@@ -932,16 +1022,16 @@
      "resourcesVpcConfig": {
       "subnetIds": [
        {
-        "Ref": "EKSVpcPublicSubnet1Subnet6F739FCA"
+        "Ref": "myVPCmyPublicSubnet1Subnet5E1BBFE5"
        },
        {
-        "Ref": "EKSVpcPublicSubnet2Subnet22F974C4"
+        "Ref": "myVPCmyPublicSubnet2Subnet434906DF"
        },
        {
-        "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+        "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
        },
        {
-        "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+        "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
        }
       ],
       "securityGroupIds": [
@@ -967,29 +1057,33 @@
    "DependsOn": [
     "ClusterCreationRoleDefaultPolicyE8BDFC7B",
     "ClusterCreationRole360249B6",
-    "EKSVpcIGW6C6D33F8",
-    "EKSVpcPrivateSubnet1DefaultRoute3FD0ADF2",
-    "EKSVpcPrivateSubnet1RouteTable158AD21B",
-    "EKSVpcPrivateSubnet1RouteTableAssociation05ED387B",
-    "EKSVpcPrivateSubnet1SubnetD09A7726",
-    "EKSVpcPrivateSubnet2DefaultRoute6DA3F959",
-    "EKSVpcPrivateSubnet2RouteTable584CB1D6",
-    "EKSVpcPrivateSubnet2RouteTableAssociation56D711FD",
-    "EKSVpcPrivateSubnet2Subnet75FE259E",
-    "EKSVpcPublicSubnet1DefaultRouteF13B673C",
-    "EKSVpcPublicSubnet1EIPA7436DE4",
-    "EKSVpcPublicSubnet1NATGatewayE8A16310",
-    "EKSVpcPublicSubnet1RouteTable258B7E17",
-    "EKSVpcPublicSubnet1RouteTableAssociationC3AB9ADD",
-    "EKSVpcPublicSubnet1Subnet6F739FCA",
-    "EKSVpcPublicSubnet2DefaultRoute6E6CA646",
-    "EKSVpcPublicSubnet2EIPBD601F30",
-    "EKSVpcPublicSubnet2NATGateway06A389FD",
-    "EKSVpcPublicSubnet2RouteTable0AB21A14",
-    "EKSVpcPublicSubnet2RouteTableAssociation56EB44CD",
-    "EKSVpcPublicSubnet2Subnet22F974C4",
-    "EKSVpcBAB3E5CC",
-    "EKSVpcVPCGW60CB8A7B"
+    "myVPCIGW5063090B",
+    "myVPCmyIsolatedSubnet1RouteTable84164108",
+    "myVPCmyIsolatedSubnet1RouteTableAssociation998F4116",
+    "myVPCmyIsolatedSubnet1Subnet8C0D6A8F",
+    "myVPCmyIsolatedSubnet2RouteTableE37C1CA2",
+    "myVPCmyIsolatedSubnet2RouteTableAssociation0E1E9C49",
+    "myVPCmyIsolatedSubnet2SubnetC4190CE4",
+    "myVPCmyPrivateSubnet1DefaultRouteE98FDE44",
+    "myVPCmyPrivateSubnet1RouteTable3996E430",
+    "myVPCmyPrivateSubnet1RouteTableAssociation9446C6EC",
+    "myVPCmyPrivateSubnet1SubnetBA09F77C",
+    "myVPCmyPrivateSubnet2DefaultRoute1990988B",
+    "myVPCmyPrivateSubnet2RouteTableCA1D81F7",
+    "myVPCmyPrivateSubnet2RouteTableAssociationEC32E868",
+    "myVPCmyPrivateSubnet2SubnetF025AC1A",
+    "myVPCmyPublicSubnet1DefaultRoute1C400848",
+    "myVPCmyPublicSubnet1EIP841D2363",
+    "myVPCmyPublicSubnet1NATGatewayB5F55978",
+    "myVPCmyPublicSubnet1RouteTable6643375F",
+    "myVPCmyPublicSubnet1RouteTableAssociationC41FA5C8",
+    "myVPCmyPublicSubnet1Subnet5E1BBFE5",
+    "myVPCmyPublicSubnet2DefaultRouteA2B670A5",
+    "myVPCmyPublicSubnet2RouteTable7D44E561",
+    "myVPCmyPublicSubnet2RouteTableAssociation81787CFD",
+    "myVPCmyPublicSubnet2Subnet434906DF",
+    "myVPC01512990",
+    "myVPCVPCGW2EC4F0BF"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
@@ -1184,10 +1278,10 @@
     },
     "Subnets": [
      {
-      "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+      "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
      },
      {
-      "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+      "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
      }
     ],
     "AmiType": "AL2_x86_64",
@@ -1264,7 +1358,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/7a84d82d4f600f7bbf92f14090cd921c18f8d9fe391ad0084bf2877881ddc759.json"
+       "/50fef559866f35ac53cb91258120e5a9da08a1492ba107f854a9ba8b081e9c6b.json"
       ]
      ]
     },
@@ -1281,11 +1375,11 @@
        "Arn"
       ]
      },
-     "referencetoMyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef": {
-      "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+     "referencetoMyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref": {
+      "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
      },
-     "referencetoMyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef": {
-      "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+     "referencetoMyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef": {
+      "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
      },
      "referencetoMyEKSClusterD473B49BClusterSecurityGroupId": {
       "Fn::GetAtt": [
@@ -1296,10 +1390,10 @@
     }
    },
    "DependsOn": [
-    "EKSVpcPrivateSubnet1DefaultRoute3FD0ADF2",
-    "EKSVpcPrivateSubnet1RouteTableAssociation05ED387B",
-    "EKSVpcPrivateSubnet2DefaultRoute6DA3F959",
-    "EKSVpcPrivateSubnet2RouteTableAssociation56D711FD"
+    "myVPCmyPrivateSubnet1DefaultRouteE98FDE44",
+    "myVPCmyPrivateSubnet1RouteTableAssociation9446C6EC",
+    "myVPCmyPrivateSubnet2DefaultRoute1990988B",
+    "myVPCmyPrivateSubnet2RouteTableAssociationEC32E868"
    ],
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
@@ -1327,7 +1421,7 @@
      }
     ],
     "VpcId": {
-     "Ref": "EKSVpcBAB3E5CC"
+     "Ref": "myVPC01512990"
     }
    },
    "Metadata": {
@@ -1560,10 +1654,10 @@
     ],
     "VPCZoneIdentifier": [
      {
-      "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+      "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
      },
      {
-      "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+      "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
      }
     ]
    },
@@ -1588,7 +1682,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/32RQU/DMAyFf8vuWWATSHCsKjRVwKhatCtyM7fz1iZT4myaqv530patiAMnv/fkxJ+TpXx4lPczOLu52h7mNRWyzRnUQYToq0W1lO3mqERc6k0ai9QXNancFxq5zyaVGc/4CUWNUz5lkXNGETAZfWvuxUuS9mUNvALGM1xEaukU5HRxohlt0NeGkeTHRRxYdw1qFjkqb4kvK2v8cWD4N0h0ZdG5ThA0ss3MyD3U1IQdh0GTSrRj0ApTa0qqsRN4cLKNa+8CnYjOLvK8E6++GFjRvYOmEh2LtdlidSW4mU6AZ+MU1KQr2YbDJh/NjfYNvFa72OiSKm9vT/e3tetEhs54q8ICgcY0kw37/NIfno9+/LXhg/v9wEKD/QbBhFFb6sd0QgdOuXd3p8WTfJaL2d4Rza3XTA3KbKzfP883VToCAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/32RQU/DMAyFf8vuWWATSHCsKjRVwKhatCtyM7fL1iZT7Gyaqv530hbWiQMn+z05eZ+TpXx4lPczONNcbQ/zWheyzRnUQQTrq0W1lO3mqERcmk0ai9TpEzDmvjDIvTl1mfWMn1DUOPmTFxFZpYG1Nddhkfqi1mq64iVJ+7IGXoWQM1x6lRhGFwZurEDyoyIOrLsGDYsclXeaLytn/XFA+NdITOWQqBMaGtlmdsQeamoD1RA0dYkhBqMwdbbUNXYCDyTbuPYU6ER0psjzTrz6YmBFegejSyQWa7vF6pfgKjoBni0pqLWpZBsO23wUV9o38EbtYmtKXXl3fbm/o10nMiTrnQoLBBrbTDLsc9N/eD768dOGD+73AwcN9hsEEaK2uo/phAmcck93p8WTfJaL2Z60njtvWDcos7F+A5Nis7I6AgAA"
    },
    "Metadata": {
     "aws:cdk:path": "MyEKSCluster/CDKMetadata/Default"

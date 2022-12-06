@@ -127,10 +127,10 @@
      ],
      "SubnetIds": [
       {
-       "Ref": "referencetoMyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef"
+       "Ref": "referencetoMyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref"
       },
       {
-       "Ref": "referencetoMyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef"
+       "Ref": "referencetoMyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef"
       }
      ]
     }
@@ -310,10 +310,10 @@
      ],
      "SubnetIds": [
       {
-       "Ref": "referencetoMyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef"
+       "Ref": "referencetoMyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref"
       },
       {
-       "Ref": "referencetoMyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef"
+       "Ref": "referencetoMyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef"
       }
      ]
     }
@@ -551,10 +551,10 @@
   "referencetoMyEKSClusterCreationRoleDD564FE8Arn": {
    "Type": "String"
   },
-  "referencetoMyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef": {
+  "referencetoMyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref": {
    "Type": "String"
   },
-  "referencetoMyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef": {
+  "referencetoMyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef": {
    "Type": "String"
   },
   "referencetoMyEKSClusterD473B49BClusterSecurityGroupId": {

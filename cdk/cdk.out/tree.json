@@ -16,13 +16,13 @@
         "id": "MyEKSCluster",
         "path": "MyEKSCluster",
         "children": {
-          "EKSVpc": {
-            "id": "EKSVpc",
-            "path": "MyEKSCluster/EKSVpc",
+          "myVPC": {
+            "id": "myVPC",
+            "path": "MyEKSCluster/myVPC",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "MyEKSCluster/EKSVpc/Resource",
+                "path": "MyEKSCluster/myVPC/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::VPC",
                   "aws:cdk:cloudformation:props": {
@@ -33,7 +33,7 @@
                     "tags": [
                       {
                         "key": "Name",
-                        "value": "MyEKSCluster/EKSVpc"
+                        "value": "MyEKSCluster/myVPC"
                       }
                     ]
                   }
@@ -43,18 +43,18 @@
                   "version": "2.45.0"
                 }
               },
-              "PublicSubnet1": {
-                "id": "PublicSubnet1",
-                "path": "MyEKSCluster/EKSVpc/PublicSubnet1",
+              "myPrivateSubnet1": {
+                "id": "myPrivateSubnet1",
+                "path": "MyEKSCluster/myVPC/myPrivateSubnet1",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet1/Subnet",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet1/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
                         "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
+                          "Ref": "myVPC01512990"
                         },
                         "availabilityZone": {
                           "Fn::Select": [
@@ -64,378 +64,12 @@
                             }
                           ]
                         },
-                        "cidrBlock": "10.0.0.0/18",
-                        "mapPublicIpOnLaunch": true,
-                        "tags": [
-                          {
-                            "key": "aws-cdk:subnet-name",
-                            "value": "Public"
-                          },
-                          {
-                            "key": "aws-cdk:subnet-type",
-                            "value": "Public"
-                          },
-                          {
-                            "key": "kubernetes.io/role/elb",
-                            "value": "1"
-                          },
-                          {
-                            "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PublicSubnet1"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "Acl": {
-                    "id": "Acl",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet1/Acl",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "RouteTable": {
-                    "id": "RouteTable",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet1/RouteTable",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
-                      "aws:cdk:cloudformation:props": {
-                        "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
-                        },
-                        "tags": [
-                          {
-                            "key": "kubernetes.io/role/elb",
-                            "value": "1"
-                          },
-                          {
-                            "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PublicSubnet1"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "RouteTableAssociation": {
-                    "id": "RouteTableAssociation",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet1/RouteTableAssociation",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
-                      "aws:cdk:cloudformation:props": {
-                        "routeTableId": {
-                          "Ref": "EKSVpcPublicSubnet1RouteTable258B7E17"
-                        },
-                        "subnetId": {
-                          "Ref": "EKSVpcPublicSubnet1Subnet6F739FCA"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "DefaultRoute": {
-                    "id": "DefaultRoute",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet1/DefaultRoute",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::Route",
-                      "aws:cdk:cloudformation:props": {
-                        "routeTableId": {
-                          "Ref": "EKSVpcPublicSubnet1RouteTable258B7E17"
-                        },
-                        "destinationCidrBlock": "0.0.0.0/0",
-                        "gatewayId": {
-                          "Ref": "EKSVpcIGW6C6D33F8"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "EIP": {
-                    "id": "EIP",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet1/EIP",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
-                      "aws:cdk:cloudformation:props": {
-                        "domain": "vpc",
-                        "tags": [
-                          {
-                            "key": "kubernetes.io/role/elb",
-                            "value": "1"
-                          },
-                          {
-                            "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PublicSubnet1"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnEIP",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "NATGateway": {
-                    "id": "NATGateway",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet1/NATGateway",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
-                      "aws:cdk:cloudformation:props": {
-                        "subnetId": {
-                          "Ref": "EKSVpcPublicSubnet1Subnet6F739FCA"
-                        },
-                        "allocationId": {
-                          "Fn::GetAtt": [
-                            "EKSVpcPublicSubnet1EIPA7436DE4",
-                            "AllocationId"
-                          ]
-                        },
-                        "tags": [
-                          {
-                            "key": "kubernetes.io/role/elb",
-                            "value": "1"
-                          },
-                          {
-                            "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PublicSubnet1"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnNatGateway",
-                      "version": "2.45.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ec2.PublicSubnet",
-                  "version": "2.45.0"
-                }
-              },
-              "PublicSubnet2": {
-                "id": "PublicSubnet2",
-                "path": "MyEKSCluster/EKSVpc/PublicSubnet2",
-                "children": {
-                  "Subnet": {
-                    "id": "Subnet",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet2/Subnet",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
-                      "aws:cdk:cloudformation:props": {
-                        "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
-                        },
-                        "availabilityZone": {
-                          "Fn::Select": [
-                            1,
-                            {
-                              "Fn::GetAZs": ""
-                            }
-                          ]
-                        },
-                        "cidrBlock": "10.0.64.0/18",
-                        "mapPublicIpOnLaunch": true,
-                        "tags": [
-                          {
-                            "key": "aws-cdk:subnet-name",
-                            "value": "Public"
-                          },
-                          {
-                            "key": "aws-cdk:subnet-type",
-                            "value": "Public"
-                          },
-                          {
-                            "key": "kubernetes.io/role/elb",
-                            "value": "1"
-                          },
-                          {
-                            "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PublicSubnet2"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "Acl": {
-                    "id": "Acl",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet2/Acl",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "RouteTable": {
-                    "id": "RouteTable",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet2/RouteTable",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
-                      "aws:cdk:cloudformation:props": {
-                        "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
-                        },
-                        "tags": [
-                          {
-                            "key": "kubernetes.io/role/elb",
-                            "value": "1"
-                          },
-                          {
-                            "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PublicSubnet2"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "RouteTableAssociation": {
-                    "id": "RouteTableAssociation",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet2/RouteTableAssociation",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
-                      "aws:cdk:cloudformation:props": {
-                        "routeTableId": {
-                          "Ref": "EKSVpcPublicSubnet2RouteTable0AB21A14"
-                        },
-                        "subnetId": {
-                          "Ref": "EKSVpcPublicSubnet2Subnet22F974C4"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "DefaultRoute": {
-                    "id": "DefaultRoute",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet2/DefaultRoute",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::Route",
-                      "aws:cdk:cloudformation:props": {
-                        "routeTableId": {
-                          "Ref": "EKSVpcPublicSubnet2RouteTable0AB21A14"
-                        },
-                        "destinationCidrBlock": "0.0.0.0/0",
-                        "gatewayId": {
-                          "Ref": "EKSVpcIGW6C6D33F8"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "EIP": {
-                    "id": "EIP",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet2/EIP",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
-                      "aws:cdk:cloudformation:props": {
-                        "domain": "vpc",
-                        "tags": [
-                          {
-                            "key": "kubernetes.io/role/elb",
-                            "value": "1"
-                          },
-                          {
-                            "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PublicSubnet2"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnEIP",
-                      "version": "2.45.0"
-                    }
-                  },
-                  "NATGateway": {
-                    "id": "NATGateway",
-                    "path": "MyEKSCluster/EKSVpc/PublicSubnet2/NATGateway",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
-                      "aws:cdk:cloudformation:props": {
-                        "subnetId": {
-                          "Ref": "EKSVpcPublicSubnet2Subnet22F974C4"
-                        },
-                        "allocationId": {
-                          "Fn::GetAtt": [
-                            "EKSVpcPublicSubnet2EIPBD601F30",
-                            "AllocationId"
-                          ]
-                        },
-                        "tags": [
-                          {
-                            "key": "kubernetes.io/role/elb",
-                            "value": "1"
-                          },
-                          {
-                            "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PublicSubnet2"
-                          }
-                        ]
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnNatGateway",
-                      "version": "2.45.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ec2.PublicSubnet",
-                  "version": "2.45.0"
-                }
-              },
-              "PrivateSubnet1": {
-                "id": "PrivateSubnet1",
-                "path": "MyEKSCluster/EKSVpc/PrivateSubnet1",
-                "children": {
-                  "Subnet": {
-                    "id": "Subnet",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet1/Subnet",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
-                      "aws:cdk:cloudformation:props": {
-                        "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
-                        },
-                        "availabilityZone": {
-                          "Fn::Select": [
-                            0,
-                            {
-                              "Fn::GetAZs": ""
-                            }
-                          ]
-                        },
-                        "cidrBlock": "10.0.128.0/18",
+                        "cidrBlock": "10.0.0.0/24",
                         "mapPublicIpOnLaunch": false,
                         "tags": [
                           {
                             "key": "aws-cdk:subnet-name",
-                            "value": "Private"
+                            "value": "myPrivate"
                           },
                           {
                             "key": "aws-cdk:subnet-type",
@@ -447,7 +81,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PrivateSubnet1"
+                            "value": "MyEKSCluster/myVPC/myPrivateSubnet1"
                           }
                         ]
                       }
@@ -459,7 +93,7 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet1/Acl",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet1/Acl",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.45.0"
@@ -467,12 +101,12 @@
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet1/RouteTable",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet1/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
                         "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
+                          "Ref": "myVPC01512990"
                         },
                         "tags": [
                           {
@@ -481,7 +115,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PrivateSubnet1"
+                            "value": "MyEKSCluster/myVPC/myPrivateSubnet1"
                           }
                         ]
                       }
@@ -493,15 +127,15 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet1/RouteTableAssociation",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet1/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
                         "routeTableId": {
-                          "Ref": "EKSVpcPrivateSubnet1RouteTable158AD21B"
+                          "Ref": "myVPCmyPrivateSubnet1RouteTable3996E430"
                         },
                         "subnetId": {
-                          "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+                          "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
                         }
                       }
                     },
@@ -512,16 +146,16 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet1/DefaultRoute",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet1/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
                         "routeTableId": {
-                          "Ref": "EKSVpcPrivateSubnet1RouteTable158AD21B"
+                          "Ref": "myVPCmyPrivateSubnet1RouteTable3996E430"
                         },
                         "destinationCidrBlock": "0.0.0.0/0",
                         "natGatewayId": {
-                          "Ref": "EKSVpcPublicSubnet1NATGatewayE8A16310"
+                          "Ref": "myVPCmyPublicSubnet1NATGatewayB5F55978"
                         }
                       }
                     },
@@ -536,18 +170,18 @@
                   "version": "2.45.0"
                 }
               },
-              "PrivateSubnet2": {
-                "id": "PrivateSubnet2",
-                "path": "MyEKSCluster/EKSVpc/PrivateSubnet2",
+              "myPrivateSubnet2": {
+                "id": "myPrivateSubnet2",
+                "path": "MyEKSCluster/myVPC/myPrivateSubnet2",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet2/Subnet",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet2/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
                         "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
+                          "Ref": "myVPC01512990"
                         },
                         "availabilityZone": {
                           "Fn::Select": [
@@ -557,12 +191,12 @@
                             }
                           ]
                         },
-                        "cidrBlock": "10.0.192.0/18",
+                        "cidrBlock": "10.0.1.0/24",
                         "mapPublicIpOnLaunch": false,
                         "tags": [
                           {
                             "key": "aws-cdk:subnet-name",
-                            "value": "Private"
+                            "value": "myPrivate"
                           },
                           {
                             "key": "aws-cdk:subnet-type",
@@ -574,7 +208,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PrivateSubnet2"
+                            "value": "MyEKSCluster/myVPC/myPrivateSubnet2"
                           }
                         ]
                       }
@@ -586,7 +220,7 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet2/Acl",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet2/Acl",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.45.0"
@@ -594,12 +228,12 @@
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet2/RouteTable",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet2/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
                         "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
+                          "Ref": "myVPC01512990"
                         },
                         "tags": [
                           {
@@ -608,7 +242,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "MyEKSCluster/EKSVpc/PrivateSubnet2"
+                            "value": "MyEKSCluster/myVPC/myPrivateSubnet2"
                           }
                         ]
                       }
@@ -620,15 +254,15 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet2/RouteTableAssociation",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet2/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
                         "routeTableId": {
-                          "Ref": "EKSVpcPrivateSubnet2RouteTable584CB1D6"
+                          "Ref": "myVPCmyPrivateSubnet2RouteTableCA1D81F7"
                         },
                         "subnetId": {
-                          "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+                          "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
                         }
                       }
                     },
@@ -639,21 +273,529 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "MyEKSCluster/EKSVpc/PrivateSubnet2/DefaultRoute",
+                    "path": "MyEKSCluster/myVPC/myPrivateSubnet2/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
                         "routeTableId": {
-                          "Ref": "EKSVpcPrivateSubnet2RouteTable584CB1D6"
+                          "Ref": "myVPCmyPrivateSubnet2RouteTableCA1D81F7"
                         },
                         "destinationCidrBlock": "0.0.0.0/0",
                         "natGatewayId": {
-                          "Ref": "EKSVpcPublicSubnet2NATGateway06A389FD"
+                          "Ref": "myVPCmyPublicSubnet1NATGatewayB5F55978"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                      "version": "2.45.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.PrivateSubnet",
+                  "version": "2.45.0"
+                }
+              },
+              "myPublicSubnet1": {
+                "id": "myPublicSubnet1",
+                "path": "MyEKSCluster/myVPC/myPublicSubnet1",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet1/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "myVPC01512990"
+                        },
+                        "availabilityZone": {
+                          "Fn::Select": [
+                            0,
+                            {
+                              "Fn::GetAZs": ""
+                            }
+                          ]
+                        },
+                        "cidrBlock": "10.0.2.0/24",
+                        "mapPublicIpOnLaunch": true,
+                        "tags": [
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "myPublic"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Public"
+                          },
+                          {
+                            "key": "kubernetes.io/role/elb",
+                            "value": "1"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myPublicSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet1/Acl",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet1/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "myVPC01512990"
+                        },
+                        "tags": [
+                          {
+                            "key": "kubernetes.io/role/elb",
+                            "value": "1"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myPublicSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet1/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "myVPCmyPublicSubnet1RouteTable6643375F"
+                        },
+                        "subnetId": {
+                          "Ref": "myVPCmyPublicSubnet1Subnet5E1BBFE5"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "DefaultRoute": {
+                    "id": "DefaultRoute",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet1/DefaultRoute",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "myVPCmyPublicSubnet1RouteTable6643375F"
+                        },
+                        "destinationCidrBlock": "0.0.0.0/0",
+                        "gatewayId": {
+                          "Ref": "myVPCIGW5063090B"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "EIP": {
+                    "id": "EIP",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet1/EIP",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
+                      "aws:cdk:cloudformation:props": {
+                        "domain": "vpc",
+                        "tags": [
+                          {
+                            "key": "kubernetes.io/role/elb",
+                            "value": "1"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myPublicSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnEIP",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "NATGateway": {
+                    "id": "NATGateway",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet1/NATGateway",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
+                      "aws:cdk:cloudformation:props": {
+                        "subnetId": {
+                          "Ref": "myVPCmyPublicSubnet1Subnet5E1BBFE5"
+                        },
+                        "allocationId": {
+                          "Fn::GetAtt": [
+                            "myVPCmyPublicSubnet1EIP841D2363",
+                            "AllocationId"
+                          ]
+                        },
+                        "tags": [
+                          {
+                            "key": "kubernetes.io/role/elb",
+                            "value": "1"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myPublicSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnNatGateway",
+                      "version": "2.45.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.PublicSubnet",
+                  "version": "2.45.0"
+                }
+              },
+              "myPublicSubnet2": {
+                "id": "myPublicSubnet2",
+                "path": "MyEKSCluster/myVPC/myPublicSubnet2",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet2/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "myVPC01512990"
+                        },
+                        "availabilityZone": {
+                          "Fn::Select": [
+                            1,
+                            {
+                              "Fn::GetAZs": ""
+                            }
+                          ]
+                        },
+                        "cidrBlock": "10.0.3.0/24",
+                        "mapPublicIpOnLaunch": true,
+                        "tags": [
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "myPublic"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Public"
+                          },
+                          {
+                            "key": "kubernetes.io/role/elb",
+                            "value": "1"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myPublicSubnet2"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet2/Acl",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet2/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "myVPC01512990"
+                        },
+                        "tags": [
+                          {
+                            "key": "kubernetes.io/role/elb",
+                            "value": "1"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myPublicSubnet2"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet2/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "myVPCmyPublicSubnet2RouteTable7D44E561"
+                        },
+                        "subnetId": {
+                          "Ref": "myVPCmyPublicSubnet2Subnet434906DF"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "DefaultRoute": {
+                    "id": "DefaultRoute",
+                    "path": "MyEKSCluster/myVPC/myPublicSubnet2/DefaultRoute",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "myVPCmyPublicSubnet2RouteTable7D44E561"
+                        },
+                        "destinationCidrBlock": "0.0.0.0/0",
+                        "gatewayId": {
+                          "Ref": "myVPCIGW5063090B"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRoute",
+                      "version": "2.45.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.PublicSubnet",
+                  "version": "2.45.0"
+                }
+              },
+              "myIsolatedSubnet1": {
+                "id": "myIsolatedSubnet1",
+                "path": "MyEKSCluster/myVPC/myIsolatedSubnet1",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "MyEKSCluster/myVPC/myIsolatedSubnet1/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "myVPC01512990"
+                        },
+                        "availabilityZone": {
+                          "Fn::Select": [
+                            0,
+                            {
+                              "Fn::GetAZs": ""
+                            }
+                          ]
+                        },
+                        "cidrBlock": "10.0.4.0/28",
+                        "mapPublicIpOnLaunch": false,
+                        "tags": [
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "myIsolated"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Isolated"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myIsolatedSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "MyEKSCluster/myVPC/myIsolatedSubnet1/Acl",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "MyEKSCluster/myVPC/myIsolatedSubnet1/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "myVPC01512990"
+                        },
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myIsolatedSubnet1"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "MyEKSCluster/myVPC/myIsolatedSubnet1/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "myVPCmyIsolatedSubnet1RouteTable84164108"
+                        },
+                        "subnetId": {
+                          "Ref": "myVPCmyIsolatedSubnet1Subnet8C0D6A8F"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
+                      "version": "2.45.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.PrivateSubnet",
+                  "version": "2.45.0"
+                }
+              },
+              "myIsolatedSubnet2": {
+                "id": "myIsolatedSubnet2",
+                "path": "MyEKSCluster/myVPC/myIsolatedSubnet2",
+                "children": {
+                  "Subnet": {
+                    "id": "Subnet",
+                    "path": "MyEKSCluster/myVPC/myIsolatedSubnet2/Subnet",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "myVPC01512990"
+                        },
+                        "availabilityZone": {
+                          "Fn::Select": [
+                            1,
+                            {
+                              "Fn::GetAZs": ""
+                            }
+                          ]
+                        },
+                        "cidrBlock": "10.0.4.16/28",
+                        "mapPublicIpOnLaunch": false,
+                        "tags": [
+                          {
+                            "key": "aws-cdk:subnet-name",
+                            "value": "myIsolated"
+                          },
+                          {
+                            "key": "aws-cdk:subnet-type",
+                            "value": "Isolated"
+                          },
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myIsolatedSubnet2"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnet",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "Acl": {
+                    "id": "Acl",
+                    "path": "MyEKSCluster/myVPC/myIsolatedSubnet2/Acl",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "RouteTable": {
+                    "id": "RouteTable",
+                    "path": "MyEKSCluster/myVPC/myIsolatedSubnet2/RouteTable",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "myVPC01512990"
+                        },
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "MyEKSCluster/myVPC/myIsolatedSubnet2"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnRouteTable",
+                      "version": "2.45.0"
+                    }
+                  },
+                  "RouteTableAssociation": {
+                    "id": "RouteTableAssociation",
+                    "path": "MyEKSCluster/myVPC/myIsolatedSubnet2/RouteTableAssociation",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                      "aws:cdk:cloudformation:props": {
+                        "routeTableId": {
+                          "Ref": "myVPCmyIsolatedSubnet2RouteTableE37C1CA2"
+                        },
+                        "subnetId": {
+                          "Ref": "myVPCmyIsolatedSubnet2SubnetC4190CE4"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_ec2.CfnSubnetRouteTableAssociation",
                       "version": "2.45.0"
                     }
                   }
@@ -665,14 +807,14 @@
               },
               "IGW": {
                 "id": "IGW",
-                "path": "MyEKSCluster/EKSVpc/IGW",
+                "path": "MyEKSCluster/myVPC/IGW",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::InternetGateway",
                   "aws:cdk:cloudformation:props": {
                     "tags": [
                       {
                         "key": "Name",
-                        "value": "MyEKSCluster/EKSVpc"
+                        "value": "MyEKSCluster/myVPC"
                       }
                     ]
                   }
@@ -684,15 +826,15 @@
               },
               "VPCGW": {
                 "id": "VPCGW",
-                "path": "MyEKSCluster/EKSVpc/VPCGW",
+                "path": "MyEKSCluster/myVPC/VPCGW",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::VPCGatewayAttachment",
                   "aws:cdk:cloudformation:props": {
                     "vpcId": {
-                      "Ref": "EKSVpcBAB3E5CC"
+                      "Ref": "myVPC01512990"
                     },
                     "internetGatewayId": {
-                      "Ref": "EKSVpcIGW6C6D33F8"
+                      "Ref": "myVPCIGW5063090B"
                     }
                   }
                 },
@@ -912,7 +1054,7 @@
                           }
                         ],
                         "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
+                          "Ref": "myVPC01512990"
                         }
                       }
                     },
@@ -1376,10 +1518,10 @@
                         },
                         "subnets": [
                           {
-                            "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+                            "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
                           },
                           {
-                            "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+                            "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
                           }
                         ],
                         "amiType": "AL2_x86_64",
@@ -2928,10 +3070,10 @@
                         "vpcConfig": {
                           "subnetIds": [
                             {
-                              "Ref": "referencetoMyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef"
+                              "Ref": "referencetoMyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref"
                             },
                             {
-                              "Ref": "referencetoMyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef"
+                              "Ref": "referencetoMyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef"
                             }
                           ],
                           "securityGroupIds": [
@@ -3255,10 +3397,10 @@
                             "vpcConfig": {
                               "subnetIds": [
                                 {
-                                  "Ref": "referencetoMyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef"
+                                  "Ref": "referencetoMyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref"
                                 },
                                 {
-                                  "Ref": "referencetoMyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef"
+                                  "Ref": "referencetoMyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef"
                                 }
                               ],
                               "securityGroupIds": [
@@ -3336,17 +3478,17 @@
                   "version": "2.45.0"
                 }
               },
-              "reference-to-MyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef": {
-                "id": "reference-to-MyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef",
-                "path": "MyEKSCluster/@aws-cdk--aws-eks.KubectlProvider/reference-to-MyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef",
+              "reference-to-MyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref": {
+                "id": "reference-to-MyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref",
+                "path": "MyEKSCluster/@aws-cdk--aws-eks.KubectlProvider/reference-to-MyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnParameter",
                   "version": "2.45.0"
                 }
               },
-              "reference-to-MyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef": {
-                "id": "reference-to-MyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef",
-                "path": "MyEKSCluster/@aws-cdk--aws-eks.KubectlProvider/reference-to-MyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef",
+              "reference-to-MyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef": {
+                "id": "reference-to-MyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef",
+                "path": "MyEKSCluster/@aws-cdk--aws-eks.KubectlProvider/reference-to-MyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnParameter",
                   "version": "2.45.0"
@@ -3392,7 +3534,7 @@
                           {
                             "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
                           },
-                          "/7a84d82d4f600f7bbf92f14090cd921c18f8d9fe391ad0084bf2877881ddc759.json"
+                          "/50fef559866f35ac53cb91258120e5a9da08a1492ba107f854a9ba8b081e9c6b.json"
                         ]
                       ]
                     },
@@ -3409,11 +3551,11 @@
                           "Arn"
                         ]
                       },
-                      "referencetoMyEKSClusterEKSVpcPrivateSubnet1Subnet52504ADFRef": {
-                        "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+                      "referencetoMyEKSClustermyVPCmyPrivateSubnet1Subnet4D532853Ref": {
+                        "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
                       },
-                      "referencetoMyEKSClusterEKSVpcPrivateSubnet2Subnet500D329DRef": {
-                        "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+                      "referencetoMyEKSClustermyVPCmyPrivateSubnet2Subnet0C94C7FFRef": {
+                        "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
                       },
                       "referencetoMyEKSClusterD473B49BClusterSecurityGroupId": {
                         "Fn::GetAtt": [
@@ -3464,7 +3606,7 @@
                           }
                         ],
                         "vpcId": {
-                          "Ref": "EKSVpcBAB3E5CC"
+                          "Ref": "myVPC01512990"
                         }
                       }
                     },
@@ -3740,10 +3882,10 @@
                     ],
                     "vpcZoneIdentifier": [
                       {
-                        "Ref": "EKSVpcPrivateSubnet1SubnetD09A7726"
+                        "Ref": "myVPCmyPrivateSubnet1SubnetBA09F77C"
                       },
                       {
-                        "Ref": "EKSVpcPrivateSubnet2Subnet75FE259E"
+                        "Ref": "myVPCmyPrivateSubnet2SubnetF025AC1A"
                       }
                     ]
                   }
