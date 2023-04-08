@@ -4,7 +4,9 @@ import ec2 = require('aws-cdk-lib/aws-ec2');
 import eks = require('aws-cdk-lib/aws-eks');
 import cdk = require('aws-cdk-lib');
 
-class EKSCluster extends cdk.Stack {
+const env = "prod";
+
+class MyStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -15,7 +17,7 @@ class EKSCluster extends cdk.Stack {
       subnetConfiguration: [
         {
           name: 'myPrivate',
-          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
           cidrMask: 24,
         },
         {
@@ -66,5 +68,5 @@ class EKSCluster extends cdk.Stack {
 }
 
 const app = new cdk.App();
-new EKSCluster(app, 'MyEKSCluster');
+new MyStack(app, `MyStack-${env}`);
 app.synth();
