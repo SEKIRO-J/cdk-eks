@@ -1,25 +1,22 @@
-#CDK for eks cluster deployed in private subnet
+# CDK for eks cluster deployed in isolate subnet
 
 # Reference/Base template
 https://github.com/aws-samples/aws-cdk-examples/tree/master/typescript/eks/cluster
 
 # Prerequisites
+1. setup aws credentials
+
 ```
 ./bin/setup.sh
 ```
 
-# Make changes
-```
-npm run build
-cdk deploy
-```
+The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
+## Useful commands
 
-### Build Plan
-```
-1. deploy EKS cluster
-2. deploy web app
-3. deploy load balancer
-4. deploy database
-5. deploy worker pods
-```
+* `npm run build`   compile typescript to js
+* `npm run watch`   watch for changes and compile
+* `npm run test`    perform the jest unit tests
+* `cdk deploy`      deploy this stack to your default AWS account/region
+* `cdk diff`        compare deployed stack with current state
+* `cdk synth`       emits the synthesized CloudFormation template
