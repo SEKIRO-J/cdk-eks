@@ -1,12 +1,11 @@
 #CDK for eks cluster deployed in private subnet
 
-#Reference/Base tempalte
+# Reference/Base template
 https://github.com/aws-samples/aws-cdk-examples/tree/master/typescript/eks/cluster
 
-#Prerequisites
+# Prerequisites
 ```
-npm install
-npm install -g cdk
+./bin/setup.sh
 ```
 
 # Make changes
