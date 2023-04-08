@@ -5,7 +5,7 @@ https://github.com/aws-samples/aws-cdk-examples/tree/master/typescript/eks/clust
 
 #Prerequisites
 ```
-npm install -g typescript
+npm install
 npm run build
 cdk deploy
 ```
