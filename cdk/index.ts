@@ -25,11 +25,6 @@ class MyStack extends cdk.Stack {
           subnetType: ec2.SubnetType.PUBLIC,
           cidrMask: 24,
         },
-        {
-          name: 'mySolated',
-          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
-          cidrMask: 28,
-        },
       ],
     });
     
