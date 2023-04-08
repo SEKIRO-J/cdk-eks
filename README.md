@@ -6,6 +6,11 @@ https://github.com/aws-samples/aws-cdk-examples/tree/master/typescript/eks/clust
 #Prerequisites
 ```
 npm install
+npm install -g cdk
+```
+
+# Make changes
+```
 npm run build
 cdk deploy
 ```
