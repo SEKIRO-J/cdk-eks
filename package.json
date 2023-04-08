@@ -1,8 +1,8 @@
 {
-  "name": "init",
+  "name": "index",
   "version": "0.1.0",
   "bin": {
-    "init": "bin/init.js"
+    "index": "bin/index.js"
   },
   "scripts": {
     "build": "tsc",
