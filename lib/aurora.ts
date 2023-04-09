@@ -220,7 +220,7 @@ export class Aurora extends Construct {
         // aurora params
         const auroraParameterGroup = new rds.ParameterGroup(
             this,
-            'AuroraParameterGroup',
+            'DatabaseParameterGroup',
             {
                 engine: auroraEngine,
                 description: id + ' Parameter Group',
@@ -257,10 +257,10 @@ export class Aurora extends Construct {
             );
         }
 
-        // Aurora DB Key
-        const kmsKey = new kms.Key(this, 'DatabaseKey', {
+        // Aurora DB Storage Encryption Key
+        const kmsKey = new kms.Key(this, 'DatabaseStorageEncryptionKey', {
             enableKeyRotation: true,
-            alias: props.dbName,
+            alias: props.dbName+'DatabaseStorageEncryptionKey',
         });
 
         let cloudwatchLogsExports: any = ['postgresql'];
@@ -311,7 +311,7 @@ export class Aurora extends Construct {
          * CloudWatch Dashboard
          */
 
-        const dashboard = new cloudwatch.Dashboard(this, 'AuroraMonitoringDashboard', {
+        const dashboard = new cloudwatch.Dashboard(this, 'DatabaseMonitoringDashboard', {
             dashboardName: props.dbName,
         });
 
