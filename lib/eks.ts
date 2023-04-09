@@ -1,23 +1,9 @@
-import {
-    Stack,
-    StackProps,
-    CfnOutput,
-    Tags,
-    App,
-    Fn,
-    Duration,
-    RemovalPolicy,
-} from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { KubectlV25Layer } from '@aws-cdk/lambda-layer-kubectl-v25';
 import autoscaling = require('aws-cdk-lib/aws-autoscaling');
 import iam = require('aws-cdk-lib/aws-iam');
 import ec2 = require('aws-cdk-lib/aws-ec2');
 import eks = require('aws-cdk-lib/aws-eks');
-import rds = require('aws-cdk-lib/aws-rds');
-import kms = require('aws-cdk-lib/aws-kms');
-import logs = require('aws-cdk-lib/aws-logs');
-import secretsmanager = require('aws-cdk-lib/aws-secretsmanager');
-import cloudwatch = require('aws-cdk-lib/aws-cloudwatch');
 
 export interface EksProps {
     /**
@@ -52,6 +38,7 @@ export class Eks extends Construct {
             vpc: vpc,
             defaultCapacity: 1,  // we want to manage capacity our selves
             version: eks.KubernetesVersion.V1_25,
+            kubectlLayer: new KubectlV25Layer(this, 'kubectl'),
         });
 
         const onDemandASG = new autoscaling.AutoScalingGroup(this, 'OnDemandASG', {
@@ -64,7 +51,7 @@ export class Eks extends Construct {
                 kubernetesVersion: '1.25',
                 nodeType: eks.NodeType.STANDARD  // without this, incorrect SSM parameter for AMI is resolved
             }),
-            updatePolicy: autoscaling.UpdatePolicy.rollingUpdate()
+            updatePolicy: autoscaling.UpdatePolicy.rollingUpdate(),
         });
 
         eksCluster.connectAutoScalingGroupCapacity(onDemandASG, {});

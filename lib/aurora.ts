@@ -1,10 +1,6 @@
 import {
-    Stack,
-    StackProps,
     CfnOutput,
     Tags,
-    App,
-    Fn,
     Duration,
     RemovalPolicy,
 } from 'aws-cdk-lib';
@@ -187,12 +183,10 @@ export class Aurora extends Construct {
         // Database Security Group
         const dbsg = new ec2.SecurityGroup(this, 'DatabaseSecurityGroup', {
             vpc: vpc,
-            allowAllOutbound: true,
             description: id + 'Database',
             securityGroupName: id + 'Database',
         });
         dbsg.addIngressRule(dbsg, allAll, 'all from self');
-        dbsg.addEgressRule(ec2.Peer.ipv4('0.0.0.0/0'), allAll, 'all out');
 
         if (props.engine == 'mysql') {
             connectionPort = tcp3306;
