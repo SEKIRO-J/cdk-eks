@@ -1,5 +1,7 @@
-import { Construct } from 'constructs';
+'use strict';
+
 import { KubectlV25Layer } from '@aws-cdk/lambda-layer-kubectl-v25';
+import { Construct } from 'constructs';
 import autoscaling = require('aws-cdk-lib/aws-autoscaling');
 import iam = require('aws-cdk-lib/aws-iam');
 import ec2 = require('aws-cdk-lib/aws-ec2');

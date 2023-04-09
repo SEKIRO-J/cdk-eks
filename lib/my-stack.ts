@@ -1,10 +1,6 @@
 'use strict';
 
-import autoscaling = require('aws-cdk-lib/aws-autoscaling');
-import iam = require('aws-cdk-lib/aws-iam');
 import ec2 = require('aws-cdk-lib/aws-ec2');
-import eks = require('aws-cdk-lib/aws-eks');
-import rds = require('aws-cdk-lib/aws-rds');
 import cdk = require('aws-cdk-lib');
 import { Construct } from 'constructs';
 import { Aurora } from './aurora';

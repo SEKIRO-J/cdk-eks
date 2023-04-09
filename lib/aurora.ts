@@ -1,15 +1,17 @@
+'use strict';
+
 import {
-    CfnOutput,
-    Tags,
-    Duration,
-    RemovalPolicy,
+    CfnOutput, Duration,
+    RemovalPolicy, Tags
 } from 'aws-cdk-lib';
-import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
-import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as kms from 'aws-cdk-lib/aws-kms';
-import * as logs from 'aws-cdk-lib/aws-logs';
-import * as rds from 'aws-cdk-lib/aws-rds';
-import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+
+import cloudwatch = require('aws-cdk-lib/aws-cloudwatch');
+import kms = require('aws-cdk-lib/aws-kms');
+import ec2 = require('aws-cdk-lib/aws-ec2');
+import secretsmanager = require('aws-cdk-lib/aws-secretsmanager');
+import rds = require('aws-cdk-lib/aws-rds');
+import logs = require('aws-cdk-lib/aws-logs');
+
 import { Construct } from 'constructs';
 
 export interface AuroraProps {
